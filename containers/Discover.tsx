@@ -1,26 +1,25 @@
 import React, { useContext } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { ThemeProps, ThemeContext } from 'react-native-elements';
-import baseStyles from '../baseStyles';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import { ThemeProps, ThemeContext, Text } from 'react-native-elements';
+import globalStyles from '../globalStyles';
 
-export default function Home() {
+export default function Discover() {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <View style={baseStyles.View}>
-      <Text style={styles.title}>
+    <SafeAreaView style={[globalStyles.AndroidSafeArea, globalStyles.Centered]}>
+      <Text h1 style={styles.title}>
         BottleTrack
       </Text>
       <Text style={{ color: theme.colors?.grey3 }}>
         No bottle left behind.
       </Text>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 40,
     fontWeight: 'bold',
   },
 });

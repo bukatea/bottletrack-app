@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
-import baseStyles from '../baseStyles';
+import { Text, StyleSheet, SafeAreaView, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import globalStyles from '../globalStyles';
 import { AppContextType, useAppContext } from '../libs/context';
 import { useLoading } from '../hooks/useLoading';
 import { Button, Input, ThemeContext } from 'react-native-elements';
@@ -137,23 +137,32 @@ export default function Signup() {
   }
 
   return (
-    <KeyboardAvoidingView style={baseStyles.View} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <ScrollView style={styles.signup} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
-        {newUser === null ? renderForm() : renderConfirmationForm()}
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <SafeAreaView style={[globalStyles.AndroidSafeArea, globalStyles.Centered]}>
+      <KeyboardAvoidingView style={styles.signup} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
+          {newUser === null ? renderForm() : renderConfirmationForm()}
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   signup: {
     width: '100%',
+    height: '100%',
+  },
+  scroll: {
     paddingHorizontal: '12.5%',
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   passwordMessage: {
     marginTop: 20,
   },
   codeField: {
     marginVertical: 10,
-  }
+  },
 });

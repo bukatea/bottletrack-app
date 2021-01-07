@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Button, ThemeContext } from 'react-native-elements';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
+import { Button, ThemeContext, Text } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { AppContextType, useAppContext } from '../libs/context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,7 +9,7 @@ import { Ionicons, createIconSetFromIcoMoon } from '@expo/vector-icons';
 import Bottles from './Bottles';
 import Discover from './Discover';
 import Profile from './Profile';
-import baseStyles from '../baseStyles';
+import globalStyles from '../globalStyles';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,7 +25,7 @@ export default function Lander() {
   const [fontsLoaded] = useFonts({ 'SportBottle': require('../assets/sport-bottle-icon/fonts/icomoon.ttf') });
 
   function renderBottomTabNavigator() {
-    return fontsLoaded && (
+    return fontsLoaded ? (
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -54,13 +54,13 @@ export default function Lander() {
         <Tab.Screen name="Discover" component={Discover} />
         <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
-    );
+    ): null;
   }
 
   function renderLander() {
     return (
-      <View style={baseStyles.View}>
-        <Text style={styles.title}>
+      <SafeAreaView style={[globalStyles.AndroidSafeArea, globalStyles.Centered]}>
+        <Text h1 style={styles.title}>
           BottleTrack
         </Text>
         <Text style={{ color: theme.colors?.grey3 }}>
@@ -78,7 +78,7 @@ export default function Lander() {
             onPress={() => navigation.navigate('Signup')}
           />
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -87,7 +87,6 @@ export default function Lander() {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 40,
     fontWeight: 'bold',
   },
   buttons: {

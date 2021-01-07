@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, Text } from 'react-native';
 import { AppContextType, useAppContext } from '../libs/context';
 import { ThemeContext, Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
 import { useNavigation } from '@react-navigation/native';
-import baseStyles from '../baseStyles';
+import globalStyles from '../globalStyles';
 
 export default function Profile() {
   const navigation = useNavigation();
@@ -18,7 +18,7 @@ export default function Profile() {
   }
 
   return (
-    <View style={baseStyles.View}>
+    <SafeAreaView style={[globalStyles.AndroidSafeArea, globalStyles.Centered]}>
       <Text>
         Hello, {email}!
       </Text>
@@ -27,7 +27,7 @@ export default function Profile() {
         buttonStyle={[{ backgroundColor: theme.colors?.error }, styles.button] }
         onPress={handleLogout}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
