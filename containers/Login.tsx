@@ -21,6 +21,10 @@ export default function Login() {
   }
 
   async function handleLogin() {
+    if (isLoading) {
+      return;
+    }
+
     try {
       await load(Auth.signIn(email, password));
       setContextEmail(email);

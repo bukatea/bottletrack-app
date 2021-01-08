@@ -2,9 +2,11 @@ import React, { useContext } from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { ThemeProps, ThemeContext, Text } from 'react-native-elements';
 import globalStyles from '../globalStyles';
+import { BleManager } from 'react-native-ble-plx';
 
 export default function Discover() {
   const { theme } = useContext(ThemeContext);
+  const manager = new BleManager();
 
   return (
     <SafeAreaView style={[globalStyles.AndroidSafeArea, globalStyles.Centered]}>

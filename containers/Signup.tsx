@@ -38,6 +38,10 @@ export default function Signup() {
   }
 
   async function handleSubmit() {
+    if (isLoading) {
+      return;
+    }
+
     try {
       const newUser = await load(
         Auth.signUp({
@@ -58,6 +62,10 @@ export default function Signup() {
   }
 
   async function handleConfirmationSubmit() {
+    if (isLoading) {
+      return;
+    }
+
     try {
       await load(
         Auth.confirmSignUp(email, confirmationCode).then(() => Auth.signIn(email, password))
