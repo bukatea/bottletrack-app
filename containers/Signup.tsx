@@ -1,26 +1,25 @@
 import React, { useState, useContext } from 'react';
 import { Text, StyleSheet, SafeAreaView, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import globalStyles from '../globalStyles';
-import { AppContextType, useAppContext } from '../libs/context';
+import { useAppContext } from '../libs/context';
 import { useLoading } from '../hooks/useLoading';
 import { Button, Input, ThemeContext } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { Auth } from 'aws-amplify';
 import { onError } from '../libs/error';
-import ConfirmationCodeField from '../components/ConfirmationCodeField';
+import { ConfirmationCodeField } from '../components/ConfirmationCodeField';
 import { validateEmail, validatePassword } from '../libs/validation';
 
 export default function Signup() {
   const navigation = useNavigation();
   const { theme } = useContext(ThemeContext);
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmationCode, setConfirmationCode] = useState("");
 
   const [newUser, setNewUser] = useState<ISignUpResult | null>(null);
-  const { userHasAuthenticated, setEmail: setContextEmail } = useAppContext();
+  const { userHasAuthenticated, email, setEmail } = useAppContext();
   const [isLoading, load] = useLoading();
 
   const CELL_COUNT = 6;
@@ -70,7 +69,6 @@ export default function Signup() {
       await load(
         Auth.confirmSignUp(email, confirmationCode).then(() => Auth.signIn(email, password))
       );
-      setContextEmail(email);
       userHasAuthenticated(true);
       navigation.navigate('Lander');
     } catch (e) {
@@ -147,7 +145,7 @@ export default function Signup() {
   return (
     <SafeAreaView style={[globalStyles.AndroidSafeArea, globalStyles.Centered]}>
       <KeyboardAvoidingView style={styles.signup} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
+        <ScrollView style={styles.scroll} contentContainerStyle={globalStyles.ScrollContent}>
           {newUser === null ? renderForm() : renderConfirmationForm()}
         </ScrollView>
       </KeyboardAvoidingView>
@@ -162,10 +160,6 @@ const styles = StyleSheet.create({
   },
   scroll: {
     paddingHorizontal: '12.5%',
-  },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
   },
   passwordMessage: {
     marginTop: 20,

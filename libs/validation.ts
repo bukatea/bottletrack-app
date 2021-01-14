@@ -7,3 +7,7 @@ export function validatePassword(password: string) {
   const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
   return re.test(password);
 }
+
+export function validateName(name: string) {
+  return name.length > 0;
+}

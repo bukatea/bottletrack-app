@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { StyleSheet, SafeAreaView, Text } from 'react-native';
-import { AppContextType, useAppContext } from '../libs/context';
+import { useAppContext, useBluetoothContext } from '../libs/context';
 import { ThemeContext, Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
 import { useNavigation } from '@react-navigation/native';
@@ -10,10 +10,12 @@ export default function Profile() {
   const navigation = useNavigation();
   const { theme } = useContext(ThemeContext);
   const { userHasAuthenticated, email } = useAppContext();
+  const manager = useBluetoothContext();
 
   async function handleLogout() {
     await Auth.signOut();
     userHasAuthenticated(false);
+    manager.destroy();
     navigation.navigate('Login');
   }
 
@@ -24,7 +26,7 @@ export default function Profile() {
       </Text>
       <Button 
         title="Logout"
-        buttonStyle={[{ backgroundColor: theme.colors?.error }, styles.button] }
+        buttonStyle={[{ backgroundColor: theme.colors?.error }, styles.button]}
         onPress={handleLogout}
       />
     </SafeAreaView>

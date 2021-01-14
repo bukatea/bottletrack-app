@@ -9,17 +9,17 @@ import {
   CodeFieldProps
 } from 'react-native-confirmation-code-field';
 
-interface ConfirmationCodeFieldProps extends Omit<CodeFieldProps, 'renderCell'> {
-  cellCount: number,
-  value: string,
-  onChangeText: (value: string) => void,
-  cellStyle?: StyleProp<TextStyle>,
-  focusCellStyle?: StyleProp<TextStyle>,
-  label?: string,
-  labelStyle?: StyleProp<TextStyle>,
+export interface ConfirmationCodeFieldProps extends Omit<CodeFieldProps, 'renderCell'> {
+  cellCount: number;
+  value: string;
+  onChangeText: (value: string) => void;
+  cellStyle?: StyleProp<TextStyle>;
+  focusCellStyle?: StyleProp<TextStyle>;
+  label?: string;
+  labelStyle?: StyleProp<TextStyle>;
 }
 
-export default function ConfirmationCodeField(props: ConfirmationCodeFieldProps) {
+export function ConfirmationCodeField(props: ConfirmationCodeFieldProps) {
   const ref = useBlurOnFulfill({
     value: props.value,
     cellCount: props.cellCount,

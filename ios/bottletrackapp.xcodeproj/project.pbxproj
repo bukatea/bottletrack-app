@@ -157,7 +157,9 @@
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = CR9MBP85PG;
 						LastSwiftMigration = 1130;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -335,7 +337,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = bottletrackapp/bottletrack.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CR9MBP85PG;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64,x86_64";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -352,11 +357,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bukatea.bottletrack;
 				PRODUCT_NAME = bottletrack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bottletrackapp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "x86_64 armv7s armv7 arm64e";
+				VALID_ARCHS = "x86_64 armv7s armv7 arm64 arm64e";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -369,7 +375,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = bottletrackapp/bottletrack.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CR9MBP85PG;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64,x86_64";
 				INFOPLIST_FILE = bottletrackapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -382,10 +391,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bukatea.bottletrack;
 				PRODUCT_NAME = bottletrack;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bottletrackapp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "x86_64 armv7s armv7 arm64e";
+				VALID_ARCHS = "x86_64 armv7s armv7 arm64 arm64e";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -449,7 +459,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "arm64e armv7 armv7s x86_64";
+				VALID_ARCHS = "arm64e armv7 armv7s x86_64 arm64";
 			};
 			name = Debug;
 		};
@@ -506,7 +516,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "arm64e armv7 armv7s x86_64";
+				VALID_ARCHS = "arm64e armv7 armv7s x86_64 arm64";
 			};
 			name = Release;
 		};

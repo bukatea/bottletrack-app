@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, SafeAreaView, KeyboardAvoidingView, ScrollView, Keyboard, Platform } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
-import { AppContextType, useAppContext } from '../libs/context';
+import { useAppContext } from '../libs/context';
 import { useNavigation } from '@react-navigation/native';
 import { useLoading } from '../hooks/useLoading';
 import { onError } from '../libs/error';
@@ -11,8 +11,7 @@ import { validateEmail, validatePassword } from '../libs/validation';
 
 export default function Login() {
   const navigation = useNavigation();
-  const { userHasAuthenticated, setEmail: setContextEmail } = useAppContext();
-  const [email, setEmail] = useState("");
+  const { userHasAuthenticated, email, setEmail } = useAppContext();
   const [password, setPassword] = useState("");
   const [isLoading, load] = useLoading();
 
@@ -27,7 +26,6 @@ export default function Login() {
 
     try {
       await load(Auth.signIn(email, password));
-      setContextEmail(email);
       userHasAuthenticated(true);
       navigation.navigate('Lander');
     } catch (e) {
@@ -38,7 +36,7 @@ export default function Login() {
   return (
     <SafeAreaView style={[globalStyles.AndroidSafeArea, globalStyles.Centered]}>
       <KeyboardAvoidingView style={styles.login} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent}>
+        <ScrollView style={styles.scroll} contentContainerStyle={globalStyles.ScrollContent}>
           <Input
             label="Your Email Address"
             leftIcon={{ type: 'font-awesome', name: 'envelope' }}
@@ -77,9 +75,5 @@ const styles = StyleSheet.create({
   },
   scroll: {
     paddingHorizontal: '12.5%',
-  },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
   },
 });

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Lander from './containers/Lander';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
-import Bottle from './containers/Bottle';
 import { Auth, Amplify } from 'aws-amplify';
 import config from './config';
 import { Platform } from 'react-native';
@@ -13,9 +12,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { onError } from './libs/error';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
-import { RootStackParamList } from './libs/types';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator();
 
 Amplify.configure({
   Auth: {
@@ -71,10 +69,9 @@ export default function App() {
               <Stack.Screen name="Lander" component={Lander} options={{ headerShown: false, }} />
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Signup" component={Signup} />
-              <Stack.Screen name="Bottle" component={Bottle} options={({ route }) => ({ title: route.params.bottleName })} />
             </Stack.Navigator>
           </NavigationContainer>
-         <StatusBar />
+         <StatusBar style="dark"/>
         </ThemeProvider>
       </AppContext.Provider>
     )
@@ -87,5 +84,10 @@ const theme = {
       default: colors.platform.android,
       ios: colors.platform.ios,
     }),
+  },
+  Overlay: {
+    overlayStyle: {
+      alignItems: 'center' as 'center',
+    }
   }
 };
