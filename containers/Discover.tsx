@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { View, StyleSheet, SafeAreaView, FlatList, Platform, Modal, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { ThemeProps, ThemeContext, Text, ListItem, Button, Input } from 'react-native-elements';
+import { View, StyleSheet, SafeAreaView, FlatList, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { ThemeProps, ThemeContext, Text, ListItem, Button, Input, CheckBox } from 'react-native-elements';
 import { useFocusEffect } from '@react-navigation/native';
 import globalStyles from '../globalStyles';
 import { useBluetoothContext } from '../libs/context';
@@ -11,6 +11,8 @@ import { API } from 'aws-amplify';
 import { useSelectItemKeyboardAvoidingOverlay } from '../hooks/useSelectItemKeyboardAvoidingOverlay';
 import { getInfoFromRssi } from '../libs/signalColor';
 import { validateName } from '../libs/validation';
+import Geolocation from '@react-native-community/geolocation';
+import { BottleRequest } from '../libs/types';
 
 export default function Discover() {
   const { theme } = useContext(ThemeContext);
@@ -20,6 +22,7 @@ export default function Discover() {
   const [isLoading, load] = useLoading();
   const [nameFieldsVisible, setNameFieldsVisible] = useState(false);
   const [newName, setNewName] = useState("");
+  const [confirmBottle, setConfirmBottle] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -37,26 +40,31 @@ export default function Discover() {
     }, [])
   );
 
-  const createBottle = bottle => API.post("bottles", "/bottles", {
+  const createBottle = (bottle: BottleRequest) => API.post("bottles", "/bottles", {
     body: bottle
   });
 
-  async function onPress(device: Device) {
+  async function onPress() {
     await load(
-      device.connect().then(
-        () => setNameFieldsVisible(true)
-      ).catch(
+      currentDevice ? currentDevice.connect().then(
+        () => setNameFieldsVisible(true),
         error => onError(error)
-      )
+      ) : new Promise(reject => reject(new Error('Current device is null')))
     );
   }
 
   function validateForm() {
-    return validateName(newName);
+    return validateName(newName) && confirmBottle;
   }
 
   function handleNewName() {
-
+    Geolocation.getCurrentPosition(async (position) => await load(
+      createBottle({
+        bottleName: newName,
+        lastSeenLocation: position,
+        ...(Platform.OS === 'ios' ? { BD_UUID: currentDevice?.id } : { BD_ADDR: currentDevice?.id }),
+      })
+    ));
   }
 
   const renderItem = ({ item }: { item: Device }) => (
@@ -77,6 +85,7 @@ export default function Discover() {
             onBackdropPress={() => {
               setNameFieldsVisible(false);
               setNewName('');
+              setConfirmBottle(false);
             }}
           >
             <KeyboardAvoidingView style={[globalStyles.Centered, globalStyles.OverlayDimensions]} behavior='position'>
@@ -91,22 +100,27 @@ export default function Discover() {
                 <Button 
                   title="Connect"
                   loading={isLoading}
-                  onPress={() => onPress(currentDevice as Device)}
+                  onPress={onPress}
                   buttonStyle={styles.button}
                 />
                 {nameFieldsVisible && (
                   <>
                     <Input
                       label="Please enter a name for your new bottle."
-                      value={newName}
                       onChangeText={e => setNewName(e)}
                       onSubmitEditing={() => validateForm() && handleNewName()}
                       labelStyle={styles.label}
+                    />
+                    <CheckBox
+                      title="This is a water bottle."
+                      checked={confirmBottle}
+                      onPress={() => setConfirmBottle(confirmBottle => !confirmBottle)}
                     />
                     <Button
                       title="Save"
                       disabled={!validateForm()}
                       onPress={handleNewName}
+                      buttonStyle={styles.button}
                     />
                   </>
                 )}

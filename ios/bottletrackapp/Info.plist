@@ -51,7 +51,7 @@
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>This app uses BLE to communicate with your bottles</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>This app uses your geolocation to track your bottles</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
@@ -69,6 +69,10 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app uses your geolocation to track your bottles</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app uses your geolocation to track your bottles</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

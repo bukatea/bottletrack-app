@@ -6,6 +6,7 @@ import android.net.Uri;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.polidea.reactnativeble.BlePackage;
 import com.polidea.reactnativeble.BlePackage;
 import com.facebook.react.ReactInstanceManager;

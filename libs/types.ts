@@ -1,5 +1,6 @@
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { MandateProps } from './typeUtility';
+import { GeolocationResponse } from '@react-native-community/geolocation';
 
 type StringAttributeValue = MandateProps<Pick<DynamoDB.AttributeValue, 'S'>, 'S'>;
 type NumberAttributeValue = MandateProps<Pick<DynamoDB.AttributeValue, 'N'>, 'N'>;
@@ -12,9 +13,18 @@ type ListAttributeValue = MandateProps<Pick<DynamoDB.AttributeValue, 'L'>, 'L'>;
 type NullAttributeValue = MandateProps<Pick<DynamoDB.AttributeValue, 'NULL'>, 'NULL'>;
 type BooleanAttributeValue = MandateProps<Pick<DynamoDB.AttributeValue, 'BOOL'>, 'BOOL'>;
 
-export interface Bottle {
+export interface BottleRequest {
+  bottleName: string;
+  BD_ADDR?: string;
+  BD_UUID?: string;
+  lastSeenLocation: GeolocationResponse;
+}
+
+export interface BottleResponse {
   userId: StringAttributeValue; // primary key
   bottleName: StringAttributeValue; // sort key
   createdAt: NumberAttributeValue;
-  BD_ADDR: StringAttributeValue;
+  BD_ADDR?: StringAttributeValue;
+  BD_UUID?: StringAttributeValue;
+  lastSeenLocation: MapAttributeValue;
 }
